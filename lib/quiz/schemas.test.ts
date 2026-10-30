@@ -15,11 +15,10 @@ const singleQuestion = {
 };
 
 describe("quizSettingsSchema", () => {
-  it("applies defaults and trims the topic", () => {
-    const settings = quizSettingsSchema.parse({ topic: "  Photosynthesis  " });
+  it("applies defaults without requiring a topic", () => {
+    const settings = quizSettingsSchema.parse({});
 
     expect(settings).toEqual({
-      topic: "Photosynthesis",
       questionCount: 10,
       difficulty: "MEDIUM",
       questionTypes: ["SINGLE"],
@@ -27,13 +26,14 @@ describe("quizSettingsSchema", () => {
     });
   });
 
-  it("rejects an empty topic", () => {
-    expect(quizSettingsSchema.safeParse({ topic: "   " }).success).toBe(false);
+  it("rejects an invalid question count", () => {
+    expect(quizSettingsSchema.safeParse({ questionCount: 0 }).success).toBe(
+      false,
+    );
   });
 
   it("rejects duplicate question types", () => {
     const result = quizSettingsSchema.safeParse({
-      topic: "Cells",
       questionTypes: ["SINGLE", "SINGLE"],
     });
 
@@ -42,7 +42,6 @@ describe("quizSettingsSchema", () => {
 
   it("rejects an empty question type list", () => {
     const result = quizSettingsSchema.safeParse({
-      topic: "Cells",
       questionTypes: [],
     });
 

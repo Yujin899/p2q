@@ -3,16 +3,15 @@ import { describe, expect, it } from "vitest";
 import { buildQuizPrompt } from "./prompt";
 
 describe("buildQuizPrompt", () => {
-  it("includes the topic, count, difficulty, and language", () => {
+  it("uses the attached file as the source with the requested settings", () => {
     const prompt = buildQuizPrompt({
-      topic: "Photosynthesis",
       questionCount: 8,
       difficulty: "HARD",
       questionTypes: ["SINGLE", "TRUE_FALSE"],
       language: "French",
     });
 
-    expect(prompt).toContain('"Photosynthesis"');
+    expect(prompt).toContain("ONLY the attached file");
     expect(prompt).toContain("exactly 8 questions");
     expect(prompt).toContain("hard difficulty");
     expect(prompt).toContain("French");
@@ -21,8 +20,17 @@ describe("buildQuizPrompt", () => {
     expect(prompt).not.toContain("MULTI: multiple select");
   });
 
+  it("keeps questions grounded in the source file", () => {
+    const prompt = buildQuizPrompt({});
+
+    expect(prompt).toContain("Do not use outside knowledge");
+    expect(prompt).toContain("do not invent facts");
+    expect(prompt).toContain("return fewer questions");
+    expect(prompt).toContain("Avoid trick wording");
+  });
+
   it("applies defaults", () => {
-    const prompt = buildQuizPrompt({ topic: "Space" });
+    const prompt = buildQuizPrompt({});
 
     expect(prompt).toContain("exactly 10 questions");
     expect(prompt).toContain("medium difficulty");
@@ -31,7 +39,7 @@ describe("buildQuizPrompt", () => {
   });
 
   it("asks for JSON-only output with zero-based answers", () => {
-    const prompt = buildQuizPrompt({ topic: "Space" });
+    const prompt = buildQuizPrompt({});
 
     expect(prompt).toContain("Return ONLY a JSON object");
     expect(prompt).toContain("zero-based indexes");
@@ -39,6 +47,6 @@ describe("buildQuizPrompt", () => {
   });
 
   it("rejects invalid settings", () => {
-    expect(() => buildQuizPrompt({ topic: "  " })).toThrow();
+    expect(() => buildQuizPrompt({ questionCount: 0 })).toThrow();
   });
 });

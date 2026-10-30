@@ -14,7 +14,7 @@ export default function CreateQuizPage() {
     <div className="space-y-6">
       <PageHeader
         title="Create quiz"
-        description="Configure your quiz, copy the prompt into an AI tool, then paste the JSON response back here."
+        description="Configure your quiz, attach your source file in an AI tool, copy the prompt, then paste the JSON response back here."
       />
       <Suspense fallback={<CreateQuizSkeleton />}>
         <CreateQuizContent />

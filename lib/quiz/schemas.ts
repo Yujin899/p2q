@@ -15,11 +15,6 @@ export const OPTION_COUNT_MAX = 6;
 
 export const quizSettingsSchema = z
   .object({
-    topic: z
-      .string()
-      .trim()
-      .min(1, "Enter a topic for the quiz")
-      .max(200, "Topic must be 200 characters or fewer"),
     questionCount: z
       .number()
       .int("Question count must be a whole number")

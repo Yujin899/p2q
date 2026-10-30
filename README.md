@@ -1,12 +1,12 @@
 # P2Q
 
-P2Q turns a topic into an AI-generated quiz prompt, imports the resulting JSON, and tracks your attempts. Sign-in is Google-only, and every quiz and attempt is private to its owner.
+P2Q turns an attached source file into an AI-generated quiz prompt, imports the resulting JSON, and tracks your attempts. Sign-in is Google-only, and every quiz and attempt is private to its owner.
 
 ## Features
 
 - Google sign-in with database-backed sessions via Auth.js
 - Private dashboard, library, quizzes, and attempt history
-- Prompt builder for topic, difficulty, language, question count, and question types
+- Prompt builder for attached-file quizzes with difficulty, language, question count, and question types
 - Import validation for single-choice, multi-select, and true/false questions
 - Exam and study modes with server-side grading
 - Dashboard stats and recent activity

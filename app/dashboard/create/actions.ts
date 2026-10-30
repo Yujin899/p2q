@@ -19,7 +19,6 @@ export async function importQuizAction(
   const user = await requireUser();
   const rawCount = formData.get("questionCount");
   const settingsResult = quizSettingsSchema.safeParse({
-    topic: formData.get("topic"),
     questionCount: rawCount === null ? undefined : Number(rawCount),
     difficulty: formData.get("difficulty") ?? undefined,
     questionTypes: formData.getAll("questionTypes"),

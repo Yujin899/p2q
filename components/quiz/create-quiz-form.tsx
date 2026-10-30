@@ -33,6 +33,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { buildQuizPrompt } from "@/lib/quiz/prompt";
 import {
   DIFFICULTIES,
+  QUESTION_COUNT_MAX,
+  QUESTION_COUNT_MIN,
   QUESTION_TYPES,
   type Difficulty,
   type QuestionType,
@@ -47,7 +49,6 @@ const INITIAL_STATE: ImportQuizState = { error: null, quizId: null };
 const PROMPT_DELAY = 1500;
 
 const DEFAULT_SETTINGS: QuizSettings = {
-  topic: "",
   questionCount: 10,
   difficulty: "MEDIUM",
   questionTypes: ["SINGLE"],
@@ -111,7 +112,8 @@ function PromptIdle() {
         </div>
         <p>
           <strong>Your prompt will appear here</strong>
-          Add a topic, then generate a ready-to-paste quiz brief.
+          Attach your source file in your AI tool, then generate a
+          ready-to-paste quiz brief.
         </p>
       </div>
     </div>
@@ -334,6 +336,10 @@ export function CreateQuizForm() {
   }
 
   const promptVisible = promptPhase === "ready" || promptPhase === "stale";
+  const settingsValid =
+    settings.questionCount >= QUESTION_COUNT_MIN &&
+    settings.questionCount <= QUESTION_COUNT_MAX &&
+    settings.language.trim().length > 0;
   const generateLabel =
     promptPhase === "loading"
       ? "Creating prompt..."
@@ -359,32 +365,14 @@ export function CreateQuizForm() {
             <div className="min-w-0 flex-1">
               <CardTitle>Quiz settings</CardTitle>
               <CardDescription>
-                These settings shape the prompt you will paste into your AI
-                tool.
+                These settings shape the quiz prompt for the file you attach in
+                your AI tool.
               </CardDescription>
             </div>
             <span className="paper-corner-note hidden sm:block">draft</span>
           </div>
         </CardHeader>
         <CardContent className="grid gap-5">
-          <div className="grid gap-2">
-            <Label htmlFor="topic">Topic</Label>
-            <Input
-              id="topic"
-              name="topic"
-              required
-              maxLength={200}
-              value={settings.topic}
-              onChange={(event) =>
-                setSettings((current) => ({
-                  ...current,
-                  topic: event.target.value,
-                }))
-              }
-              placeholder="e.g. The water cycle for middle school"
-            />
-          </div>
-
           <div className="grid gap-5 sm:grid-cols-3">
             <div className="grid gap-2">
               <Label htmlFor="questionCount">Questions</Label>
@@ -478,7 +466,8 @@ export function CreateQuizForm() {
             <div className="min-w-0 flex-1">
               <CardTitle>Generate the prompt</CardTitle>
               <CardDescription>
-                Copy this prompt into ChatGPT, Claude, or another AI tool.
+                Attach your source file in ChatGPT, Claude, or another AI tool,
+                then paste this prompt.
               </CardDescription>
             </div>
             <span className="paper-corner-note hidden sm:block">brief</span>
@@ -556,10 +545,7 @@ export function CreateQuizForm() {
             <Button
               type="button"
               onClick={generatePrompt}
-              disabled={
-                settings.topic.trim().length === 0 ||
-                promptPhase === "loading"
-              }
+              disabled={!settingsValid || promptPhase === "loading"}
               size="sm"
             >
               {promptPhase === "loading" ? (
