@@ -35,10 +35,6 @@ export function ThemeToggle({ className }: { className?: string }) {
         <Moon className="theme-switch-moon" />
         <Sun className="theme-switch-sun" />
       </span>
-      <span className="theme-switch-label theme-switch-label-light">
-        Light
-      </span>
-      <span className="theme-switch-label theme-switch-label-dark">Dark</span>
       <span className="theme-switch-track" aria-hidden="true">
         <span className="theme-switch-knob" />
       </span>
