@@ -1,0 +1,1451 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variation 1 - Quiet Studio</title>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("p2q-theme");
+        var preferred = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = saved || preferred;
+      } catch (error) {
+        document.documentElement.dataset.theme = "light";
+      }
+    })();
+  </script>
+  <style>
+    :root,
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg: #f6f6f7;
+      --card: #ffffff;
+      --card-soft: #fafafa;
+      --text: #18181b;
+      --muted: #71717a;
+      --faint: #a1a1aa;
+      --border: #e4e4e7;
+      --border-strong: #d4d4d8;
+      --primary: #18181b;
+      --primary-text: #fafafa;
+      --secondary: #f4f4f5;
+      --secondary-text: #27272a;
+      --success: #059669;
+      --success-bg: #ecfdf5;
+      --success-border: #a7f3d0;
+      --shimmer-a: #f4f4f5;
+      --shimmer-b: #ffffff;
+      --glow: rgba(99, 102, 241, 0.09);
+      --shadow: 0 1px 2px rgba(24, 24, 27, 0.04), 0 18px 44px rgba(24, 24, 27, 0.06);
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #09090b;
+      --card: #111113;
+      --card-soft: #161618;
+      --text: #fafafa;
+      --muted: #a1a1aa;
+      --faint: #71717a;
+      --border: #27272a;
+      --border-strong: #3f3f46;
+      --primary: #fafafa;
+      --primary-text: #18181b;
+      --secondary: #1c1c1f;
+      --secondary-text: #e4e4e7;
+      --success: #34d399;
+      --success-bg: rgba(52, 211, 153, 0.08);
+      --success-border: rgba(52, 211, 153, 0.28);
+      --shimmer-a: #1c1c1f;
+      --shimmer-b: #27272a;
+      --glow: rgba(99, 102, 241, 0.14);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 24px 60px rgba(0, 0, 0, 0.32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% -8%, var(--glow), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      transition: background-color 220ms ease, color 220ms ease;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner {
+      width: min(1080px, calc(100% - 40px));
+      height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: var(--primary-text);
+      box-shadow: 0 8px 18px rgba(24, 24, 27, 0.16);
+    }
+
+    .brand strong,
+    .brand small {
+      display: block;
+      line-height: 1.15;
+    }
+
+    .brand strong {
+      font-size: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .brand small {
+      margin-top: 2px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .nav a {
+      padding: 7px 11px;
+      border-radius: 8px;
+      color: var(--muted);
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+      background: var(--secondary);
+    }
+
+    .nav a.active {
+      color: var(--text);
+      background: var(--secondary);
+    }
+
+    .topbar-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .guest-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 28px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .guest-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 18%, transparent);
+    }
+
+    .theme-toggle {
+      position: relative;
+      width: 64px;
+      height: 32px;
+      padding: 3px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--muted);
+      cursor: pointer;
+      outline: none;
+      box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--border-strong);
+    }
+
+    .theme-toggle:focus-visible {
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--text) 14%, transparent);
+    }
+
+    .theme-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--secondary);
+      transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    [data-theme="dark"] .theme-thumb {
+      transform: translateX(32px);
+    }
+
+    .theme-toggle svg {
+      position: absolute;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      transition: color 200ms ease, opacity 200ms ease;
+    }
+
+    .theme-sun {
+      left: 10px;
+    }
+
+    .theme-moon {
+      right: 10px;
+    }
+
+    [data-theme="light"] .theme-sun,
+    [data-theme="dark"] .theme-moon {
+      color: var(--text);
+    }
+
+    .page {
+      width: min(880px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 26px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+    }
+
+    .lede {
+      max-width: 540px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .step-chip {
+      flex: 0 0 auto;
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      box-shadow: 0 1px 2px rgba(24, 24, 27, 0.03);
+    }
+
+    .step-chip strong {
+      color: var(--text);
+    }
+
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px 0;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -0.015em;
+    }
+
+    .card-title .title-icon {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--card-soft);
+      color: var(--muted);
+    }
+
+    .card-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--faint);
+      font-size: 10px;
+      font-weight: 650;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .card-body {
+      padding: 18px 22px 22px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label,
+    .group-label {
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .input,
+    .select,
+    .textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--card-soft);
+      color: var(--text);
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+    }
+
+    .input,
+    .select {
+      height: 38px;
+      padding: 0 11px;
+      font-size: 13px;
+    }
+
+    .input::placeholder,
+    .textarea::placeholder {
+      color: var(--faint);
+    }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      border-color: var(--border-strong);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--text) 8%, transparent);
+      background: var(--card);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.7fr 0.8fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .types {
+      margin-top: 16px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .type-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .type-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--card-soft);
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+    }
+
+    .type-pill:has(input:checked) {
+      border-color: color-mix(in srgb, var(--text) 26%, var(--border));
+      background: var(--secondary);
+      color: var(--text);
+    }
+
+    .type-pill input {
+      width: 14px;
+      height: 14px;
+      margin: 0;
+      accent-color: var(--primary);
+    }
+
+    .prompt-stage {
+      position: relative;
+      min-height: 252px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card-soft);
+    }
+
+    .prompt-idle {
+      min-height: 252px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .idle-orb {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 12px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed var(--border-strong);
+      border-radius: 15px;
+      color: var(--muted);
+      background: var(--card);
+    }
+
+    .prompt-idle p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.6;
+    }
+
+    .prompt-idle p strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .prompt-loader {
+      min-height: 252px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .loader-head {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .spark-orb {
+      position: relative;
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 0 0 1px var(--border);
+    }
+
+    .spark-orb::before,
+    .spark-orb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--border-strong);
+      border-radius: inherit;
+      animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    .spark-orb::after {
+      animation-delay: 0.7s;
+    }
+
+    .loader-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+
+    .loader-sub {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      margin-left: 3px;
+      vertical-align: 1px;
+    }
+
+    .dots i {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: dot-bounce 1.2s infinite ease-in-out;
+    }
+
+    .dots i:nth-child(2) {
+      animation-delay: 0.14s;
+    }
+
+    .dots i:nth-child(3) {
+      animation-delay: 0.28s;
+    }
+
+    .shimmer-lines {
+      display: grid;
+      gap: 10px;
+    }
+
+    .shimmer-line {
+      height: 11px;
+      width: var(--w, 100%);
+      border-radius: 5px;
+      background: linear-gradient(90deg, var(--shimmer-a) 25%, var(--shimmer-b) 50%, var(--shimmer-a) 75%);
+      background-size: 220% 100%;
+      animation: shimmer 1.35s linear infinite;
+    }
+
+    .shimmer-line:nth-child(2) {
+      animation-delay: 0.08s;
+    }
+
+    .shimmer-line:nth-child(3) {
+      animation-delay: 0.16s;
+    }
+
+    .shimmer-line:nth-child(4) {
+      animation-delay: 0.24s;
+    }
+
+    .load-progress {
+      height: 4px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--secondary);
+    }
+
+    .load-progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--muted), var(--text));
+    }
+
+    .prompt-loader.running .load-progress span {
+      animation: fill-progress 2.7s linear forwards;
+    }
+
+    .prompt-result {
+      min-height: 252px;
+      padding: 18px;
+      animation: rise-in 320ms ease both;
+    }
+
+    .prompt-result pre {
+      margin: 0;
+      max-height: 360px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--secondary-text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 11.5px;
+      line-height: 1.7;
+    }
+
+    .card-foot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 22px 22px;
+    }
+
+    .foot-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--faint);
+      font-size: 11px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      height: 36px;
+      padding: 0 14px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      font-size: 12.5px;
+      font-weight: 650;
+      cursor: pointer;
+      transition: transform 120ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease, opacity 160ms ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--text) 14%, transparent);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-text);
+      box-shadow: 0 8px 20px color-mix(in srgb, var(--primary) 14%, transparent);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--primary) 88%, var(--card));
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border-color: transparent;
+    }
+
+    .btn-ghost:hover:not(:disabled) {
+      color: var(--text);
+      background: var(--secondary);
+    }
+
+    .btn-outline {
+      background: var(--card);
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover:not(:disabled) {
+      border-color: var(--border-strong);
+      background: var(--secondary);
+    }
+
+    .spinner {
+      display: none;
+      width: 13px;
+      height: 13px;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .is-busy .spinner {
+      display: inline-block;
+    }
+
+    .is-busy .btn-icon {
+      display: none;
+    }
+
+    .import-stage {
+      position: relative;
+      min-height: 188px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card-soft);
+      overflow: hidden;
+    }
+
+    .textarea {
+      display: block;
+      min-height: 188px;
+      padding: 13px 14px;
+      resize: vertical;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 11.5px;
+      line-height: 1.7;
+    }
+
+    .textarea:focus {
+      box-shadow: none;
+      background: transparent;
+    }
+
+    .import-overlay,
+    .import-success {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(5px);
+    }
+
+    .import-overlay-inner {
+      width: min(330px, 100%);
+      text-align: center;
+      animation: rise-in 260ms ease both;
+    }
+
+    .ring-loader {
+      position: relative;
+      width: 46px;
+      height: 46px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+
+    .ring-loader::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: var(--text);
+      animation: spin 0.9s linear infinite;
+    }
+
+    .ring-loader::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--text);
+      transform: translate(-50%, -50%);
+      animation: pulse-dot 1.2s ease-in-out infinite;
+    }
+
+    .overlay-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .overlay-sub {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .mini-steps {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .mini-step {
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--faint);
+      font-size: 10px;
+      background: var(--card);
+    }
+
+    .mini-step.active {
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    .success-mark {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--success-border);
+      border-radius: 50%;
+      background: var(--success-bg);
+      color: var(--success);
+      animation: pop-in 360ms cubic-bezier(0.2, 1.3, 0.4, 1) both;
+    }
+
+    .success-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .success-sub {
+      margin: 5px 0 13px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .demo-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 4px 0;
+      color: var(--faint);
+      font-size: 11.5px;
+    }
+
+    .demo-footer nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .demo-footer a {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .demo-footer a:hover {
+      color: var(--text);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @keyframes ping {
+      0% {
+        transform: scale(1);
+        opacity: 0.75;
+      }
+      80%,
+      100% {
+        transform: scale(1.55);
+        opacity: 0;
+      }
+    }
+
+    @keyframes shimmer {
+      from {
+        background-position: 180% 0;
+      }
+      to {
+        background-position: -40% 0;
+      }
+    }
+
+    @keyframes fill-progress {
+      from {
+        width: 4%;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes dot-bounce {
+      0%,
+      70%,
+      100% {
+        opacity: 0.25;
+        transform: translateY(0);
+      }
+      35% {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pop-in {
+      from {
+        opacity: 0;
+        transform: scale(0.7);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes pulse-dot {
+      0%,
+      100% {
+        opacity: 0.35;
+        transform: translate(-50%, -50%) scale(0.85);
+      }
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner {
+        width: min(100% - 28px, 880px);
+        gap: 14px;
+      }
+
+      .nav,
+      .guest-chip {
+        display: none;
+      }
+
+      .page {
+        width: min(100% - 28px, 880px);
+        padding-top: 30px;
+      }
+
+      .page-head {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .step-chip {
+        margin-top: 0;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-head,
+      .card-body,
+      .card-foot {
+        padding-left: 17px;
+        padding-right: 17px;
+      }
+
+      .card-foot {
+        align-items: stretch;
+      }
+
+      .card-foot .btn {
+        flex: 1 1 auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3z"></path>
+            <path d="M19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16z"></path>
+          </svg>
+        </span>
+        <span>
+          <strong>P2Q</strong>
+          <small>Prompt to quiz</small>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a class="active" href="#">Create</a>
+        <a href="#">Library</a>
+        <a href="#">Dashboard</a>
+      </nav>
+
+      <div class="topbar-actions">
+        <span class="guest-chip"><span class="guest-dot"></span>Guest mode</span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <span class="theme-thumb" aria-hidden="true"></span>
+          <svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+          <svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.5 6.5 0 0 0 21 12.8z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">AI quiz builder</p>
+        <h1>Create quiz</h1>
+        <p class="lede">Configure the quiz, copy a prompt into your AI tool, then paste the JSON response back here. Everything is saved locally.</p>
+      </div>
+      <span class="step-chip"><strong>Step 1</strong> Configure</span>
+    </div>
+
+    <div class="stack">
+      <section class="card" aria-labelledby="settings-title">
+        <div class="card-head">
+          <div>
+            <h2 class="card-title" id="settings-title">
+              <span class="title-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path>
+                  <circle cx="16" cy="7" r="2"></circle>
+                  <circle cx="8" cy="17" r="2"></circle>
+                </svg>
+              </span>
+              Quiz settings
+            </h2>
+            <p class="card-subtitle">These choices shape the prompt you will generate.</p>
+          </div>
+          <span class="mini-badge">Draft</span>
+        </div>
+
+        <div class="card-body">
+          <div class="field">
+            <label for="topic">Topic</label>
+            <input class="input" id="topic" value="The water cycle for middle school" />
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="count">Questions</label>
+              <input class="input" id="count" type="number" min="1" max="50" value="10" />
+            </div>
+            <div class="field">
+              <label for="difficulty">Difficulty</label>
+              <select class="select" id="difficulty">
+                <option>Easy</option>
+                <option selected>Medium</option>
+                <option>Hard</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="language">Language</label>
+              <input class="input" id="language" value="English" />
+            </div>
+          </div>
+
+          <div class="types">
+            <span class="group-label">Question types</span>
+            <div class="type-row">
+              <label class="type-pill"><input type="checkbox" checked />Single choice</label>
+              <label class="type-pill"><input type="checkbox" checked />Multiple select</label>
+              <label class="type-pill"><input type="checkbox" />True / false</label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="prompt-title">
+        <div class="card-head">
+          <div>
+            <h2 class="card-title" id="prompt-title">
+              <span class="title-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3z"></path>
+                </svg>
+              </span>
+              1. Generate the prompt
+            </h2>
+            <p class="card-subtitle">Copy the result into ChatGPT, Claude, or another AI tool.</p>
+          </div>
+          <span class="mini-badge">Prompt</span>
+        </div>
+
+        <div class="card-body">
+          <div class="prompt-stage" id="promptStage" aria-live="polite">
+            <div class="prompt-idle" id="promptIdle">
+              <div>
+                <span class="idle-orb" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3z"></path>
+                    <path d="M5 17l.7 2.3L8 20l-2.3.7L5 23l-.7-2.3L2 20l2.3-.7L5 17z"></path>
+                  </svg>
+                </span>
+                <p><strong>Your prompt will appear here</strong>Generate it to see the exact instructions sent to your AI tool.</p>
+              </div>
+            </div>
+
+            <div class="prompt-loader" id="promptLoader" hidden>
+              <div class="loader-head">
+                <span class="spark-orb" aria-hidden="true">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3z"></path>
+                  </svg>
+                </span>
+                <div>
+                  <p class="loader-title">Creating your prompt<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></p>
+                  <p class="loader-sub">Matching difficulty, tone, and question mix.</p>
+                </div>
+              </div>
+
+              <div class="shimmer-lines" aria-hidden="true">
+                <span class="shimmer-line" style="--w: 92%"></span>
+                <span class="shimmer-line" style="--w: 76%"></span>
+                <span class="shimmer-line" style="--w: 84%"></span>
+                <span class="shimmer-line" style="--w: 58%"></span>
+              </div>
+
+              <div class="load-progress" aria-hidden="true"><span></span></div>
+            </div>
+
+            <div class="prompt-result" id="promptResult" hidden>
+              <pre id="promptText"></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-foot">
+          <span class="foot-note">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M12 8v4l2.5 1.5"></path>
+            </svg>
+            Usually ready in a moment
+          </span>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <button class="btn btn-ghost" type="button">
+              Open ChatGPT
+              <svg class="btn-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 4h6v6M20 4l-9 9"></path>
+                <path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path>
+              </svg>
+            </button>
+            <button class="btn btn-primary" id="generateBtn" type="button">
+              <span class="spinner" aria-hidden="true"></span>
+              <span class="btn-label">Generate prompt</span>
+              <svg class="btn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="import-title">
+        <div class="card-head">
+          <div>
+            <h2 class="card-title" id="import-title">
+              <span class="title-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 16V4M7 9l5-5 5 5"></path>
+                  <path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"></path>
+                </svg>
+              </span>
+              2. Paste the response
+            </h2>
+            <p class="card-subtitle">Paste the AI response as-is. Markdown fences are handled automatically.</p>
+          </div>
+          <span class="mini-badge">Import</span>
+        </div>
+
+        <div class="card-body">
+          <div class="import-stage" aria-live="polite">
+            <textarea class="textarea" id="importText" spellcheck="false" placeholder='Paste the JSON response here, e.g. { "title": "...", "questions": [...] }'></textarea>
+
+            <div class="import-overlay" id="importOverlay" hidden>
+              <div class="import-overlay-inner">
+                <div class="ring-loader" aria-hidden="true"></div>
+                <p class="overlay-title">Creating your quiz<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></p>
+                <p class="overlay-sub">Validating questions and saving them to your library.</p>
+                <div class="mini-steps" aria-hidden="true">
+                  <span class="mini-step active">Parse JSON</span>
+                  <span class="mini-step">Save questions</span>
+                  <span class="mini-step">Finish</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="import-success" id="importSuccess" hidden>
+              <div class="import-overlay-inner">
+                <span class="success-mark" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6L9 17l-5-5"></path>
+                  </svg>
+                </span>
+                <p class="success-title">Quiz created</p>
+                <p class="success-sub">10 questions saved to your library.</p>
+                <button class="btn btn-outline" type="button" id="openQuizBtn">Open quiz</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-foot" style="justify-content: flex-end">
+          <button class="btn btn-outline" id="importBtn" type="button">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-label">Import quiz</span>
+            <svg class="btn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <footer class="demo-footer">
+        <span>Variation 1 - Quiet Studio</span>
+        <nav aria-label="Other variations">
+          <a href="variation-2-beam-console.html">Beam Console</a>
+          <a href="variation-3-paper-trail.html">Paper Trail</a>
+          <a href="#" id="replayLink">Replay prompt animation</a>
+        </nav>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var themeToggle = document.getElementById("themeToggle");
+      var generateBtn = document.getElementById("generateBtn");
+      var generateLabel = generateBtn.querySelector(".btn-label");
+      var promptIdle = document.getElementById("promptIdle");
+      var promptLoader = document.getElementById("promptLoader");
+      var promptResult = document.getElementById("promptResult");
+      var promptText = document.getElementById("promptText");
+      var importBtn = document.getElementById("importBtn");
+      var importLabel = importBtn.querySelector(".btn-label");
+      var importOverlay = document.getElementById("importOverlay");
+      var importSuccess = document.getElementById("importSuccess");
+      var promptBusy = false;
+      var importBusy = false;
+      var promptTimer = null;
+
+      function setTheme(theme) {
+        root.dataset.theme = theme;
+        themeToggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+        try {
+          localStorage.setItem("p2q-theme", theme);
+        } catch (error) {
+          void error;
+        }
+      }
+
+      setTheme(root.dataset.theme === "dark" ? "dark" : "light");
+
+      themeToggle.addEventListener("click", function () {
+        var next = root.dataset.theme === "dark" ? "light" : "dark";
+        if (document.startViewTransition) {
+          document.startViewTransition(function () {
+            setTheme(next);
+          });
+        } else {
+          setTheme(next);
+        }
+      });
+
+      promptText.textContent = [
+        'Create a medium difficulty quiz about "The water cycle for middle school".',
+        "",
+        "Write exactly 10 questions in English.",
+        "",
+        "Use only these question types:",
+        "- SINGLE: multiple choice with exactly one correct answer (2-6 options)",
+        "- MULTI: multiple select with at least two correct answers (2-6 options)",
+        "",
+        "Return ONLY a JSON object with a title, description, and questions.",
+        "Every question needs options, zero-based correctAnswers, and an explanation."
+      ].join("\n");
+
+      function runPromptAnimation() {
+        if (promptBusy) {
+          return;
+        }
+
+        promptBusy = true;
+        window.clearTimeout(promptTimer);
+        generateBtn.disabled = true;
+        generateBtn.classList.add("is-busy");
+        generateLabel.textContent = "Creating prompt...";
+        promptIdle.hidden = true;
+        promptResult.hidden = true;
+        promptLoader.hidden = false;
+        promptLoader.classList.remove("running");
+        void promptLoader.offsetWidth;
+        promptLoader.classList.add("running");
+
+        promptTimer = window.setTimeout(function () {
+          promptLoader.hidden = true;
+          promptLoader.classList.remove("running");
+          promptResult.hidden = false;
+          generateBtn.disabled = false;
+          generateBtn.classList.remove("is-busy");
+          generateLabel.textContent = "Regenerate prompt";
+          promptBusy = false;
+        }, 2800);
+      }
+
+      generateBtn.addEventListener("click", runPromptAnimation);
+
+      importBtn.addEventListener("click", function () {
+        if (importBusy) {
+          return;
+        }
+
+        importBusy = true;
+        importBtn.disabled = true;
+        importBtn.classList.add("is-busy");
+        importLabel.textContent = "Creating quiz...";
+        importSuccess.hidden = true;
+        importOverlay.hidden = false;
+
+        window.setTimeout(function () {
+          importOverlay.hidden = true;
+          importSuccess.hidden = false;
+          importBtn.disabled = false;
+          importBtn.classList.remove("is-busy");
+          importLabel.textContent = "Import another";
+          importBusy = false;
+        }, 2400);
+      });
+
+      document.getElementById("openQuizBtn").addEventListener("click", function () {
+        importSuccess.hidden = true;
+        importOverlay.hidden = true;
+        importBtn.classList.remove("is-busy");
+        importLabel.textContent = "Import quiz";
+      });
+
+      document.getElementById("replayLink").addEventListener("click", function (event) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        runPromptAnimation();
+      });
+
+      window.setTimeout(runPromptAnimation, 900);
+    })();
+  </script>
+</body>
+</html>
